@@ -1,17 +1,18 @@
+
 import cv2
-from alg import hpt, od
+from alg import hpt, od, pe
 def gstreamer_camera(queue):
     # Use the provided pipeline to construct the video capture in opencv
     pipeline = (
         "nvarguscamerasrc ! "
             "video/x-raw(memory:NVMM), "
-            "width=(int)1920, height=(int)1080, "
-            "format=(string)NV12, framerate=(fraction)30/1 ! "
+            "width=(int)640, height=(int)480, "
+            "format=(string)NV12, framerate=(fraction)10/1 ! "
         "queue ! "
         "nvvidconv flip-method=2 ! "
             "video/x-raw, "
-            "width=(int)1920, height=(int)1080, "
-            "format=(string)BGRx, framerate=(fraction)30/1 ! "
+            "width=(int)640, height=(int)480, "
+            "format=(string)BGRx, framerate=(fraction)10/1 ! "
         "videoconvert ! "
             "video/x-raw, format=(string)BGR ! "
         "appsink"
@@ -39,26 +40,16 @@ def gstreamer_rtmpstream(queue, mode):
         'rtmpsink location="rtmp://localhost/rtmp/live live=1"'
     )
     assert mode in [ "OD", "HPT", "PE"]
-    cap = cv2.VideoWriter(pipeline, cv2.CAP_GSTREAMER, 30.0, (1920,1080))
-    count = 0
-    pre_frame = queue.get()
+    cap = cv2.VideoWriter(pipeline, cv2.CAP_GSTREAMER, 10.0, (640,480))
+    print(mode)
     if mode == "OD":
         method = od
     elif mode == "HPT":
         method = hpt
+    elif mode == "PE":
+        method = pe
     else:
         raise NotImplementedError
     while True:
-        frame = queue.get()
-        #very slow, drop some images?
-        if count %30==0:
-            frame = method(frame)
-            pre_frame = frame
-        else:
-            frame = pre_frame
+        frame = method(queue.get())
         cap.write(frame)
-
-
-
-
-
