@@ -38,9 +38,6 @@ def pe(image):
     model_complexity=0,
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5) as pose:
-    # To improve performance, optionally mark the image as not writeable to
-    # pass by reference.
-    image.flags.writeable = False
     results = pose.process(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
     if results.pose_landmarks:
       # Draw the pose annotation on the image.

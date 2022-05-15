@@ -41,7 +41,6 @@ def gstreamer_rtmpstream(queue, mode):
     )
     assert mode in [ "OD", "HPT", "PE"]
     cap = cv2.VideoWriter(pipeline, cv2.CAP_GSTREAMER, 10.0, (640,480))
-    print(mode)
     if mode == "OD":
         method = od
     elif mode == "HPT":
