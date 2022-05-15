@@ -30,12 +30,19 @@ $ python3 client.py --ip 192.168.55.1 --port 8080 --command HPT
 ```
 ## Demo
 - video
+
+    <https://youtu.be/u9ciG6Qb7ck>
 - object detection
+<p align='center'>
+<img alt="OD.png" width='250' src="demo/od.png" />
+</p>
 
-<img alt="OD.png" src="demo/od.png" />
 - hand pose tracking
+<p align='center'>
+<img alt="hpt.png" width='250' src="demo/hpt.png" />
+</p>
 
-<img alt="hpt.png" src="demo/hpt.png" />
 - pose estimation
-
-<img alt="pe.png" src="demo/pe.png" />
+<p align='center'>
+<img alt="pe.png" width='250' src="demo/pe.png" />
+</p>
